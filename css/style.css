@@ -30,4 +30,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  max-width: 100%;
+  max-height: 100%;
   background-image: linear-gradient(to right bottom, var(--color-light-blue-1, 0.8), var(--color-light-blue-2, 0.8), var(--color-light-blue-3, 0.8)); }
