@@ -97,7 +97,33 @@ window.addEventListener("load", function () {
     }
   }
 
-  class Enemy {}
+  class Enemy {
+    constructor(game){
+      this.game = game;
+      this.x = this.game.width;
+      this.speedX = Math.random()  * -1.5 - 0.5;
+      this.markedForDeletion = false;
+    }
+
+    update(){
+      this.x += this.speedX;
+      if (this.x + this.width < 0) this.markedForDeletion = true;
+    }
+
+    draw(context){
+      context.fillStyle = 'red';
+      context.fillRect(this.x, this.y, this.width, this.height);
+    }
+  }
+
+  class angler1 extends Enemy {
+    constructor(game){
+      super(game);
+      this.width = 228;
+      this.height = 169;
+      this.y = Math.random() * (this.game.height * 0.9 - this.height);
+    }
+  }
 
   class Layer {}
 
@@ -128,6 +154,7 @@ window.addEventListener("load", function () {
       this.input = new InputHandler(this);
       this.ui = new UI(this);
       this.keys = [];
+      this.enemies = [];
       this.ammo = 20;
       this.maxAmmo = 50;
       this.ammoTimer = 0;
@@ -142,11 +169,22 @@ window.addEventListener("load", function () {
       } else {
         this.ammoTimer += deltaTime;
       }
+       this.enemies.forEach((enemy) => {
+        enemy.update();
+       });
+       this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion)
     }
 
     draw(context) {
       this.player.draw(context);
       this.ui.draw(context);
+      this.enemies.forEach(enemy => { 
+        enemy.draw(context);
+      });
+    }
+
+    addEnemy(){
+      this.enemies.push(new angler1(this));
     }
   }
 
