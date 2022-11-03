@@ -1,35 +1,34 @@
 :root {
   /*COLOR-GRAY*/
-  --color-light-gray-1: #AEAEAE;
+  --color-light-gray-1: #aeaeae;
   --color-light-gray-2: #696969;
-  --color-light-gray-3: #3B3B3B;
-   
+  --color-light-gray-3: #3b3b3b;
+
   /*COLOR-BROWN-HEX*/
-  --color-light-brown-1: #FFBE7C;
-  --color-light-brown-2: #F27900;
-  --color-light-brown-3: #964B00;
+  --color-light-brown-1: #ffbe7c;
+  --color-light-brown-2: #f27900;
+  --color-light-brown-3: #964b00;
 
   /*COLOR-GOLD-HEX*/
-  --color-light-gold-1: #F4D03F;
-  --color-light-gold-2: #D4AC0D;
-  --color-light-gold-3: #7D6608;
+  --color-light-gold-1: #f4d03f;
+  --color-light-gold-2: #d4ac0d;
+  --color-light-gold-3: #7d6608;
 
   /*COLOR-BLUE-HEX*/
-  --color-light-blue-1: #5C5CFF;
-  --color-light-blue-2: #0000D1;
+  --color-light-blue-1: #5c5cff;
+  --color-light-blue-2: #0000d1;
   --color-light-blue-3: #000075;
 
   /*COLOR-OTHERS*/
   --color-white: #ffffff;
   --color-black: #000000;
-};
-
+}
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-};
+}
 
 #canvas1 {
   border: 5px solid var(--color-black);
@@ -39,8 +38,10 @@
   transform: translate(-50%, -50%);
   max-width: 100%;
   max-height: 100%;
-  background-image: linear-gradient(to right bottom, 
-  var(--color-light-blue-1, 0.8), 
-  var(--color-light-blue-2, 0.8), 
-  var(--color-light-blue-3, 0.8));
+  background-image: linear-gradient(
+    to right bottom,
+    var(--color-light-blue-1, 0.8),
+    var(--color-light-blue-2, 0.8),
+    var(--color-light-blue-3, 0.8)
+  );
 }
