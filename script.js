@@ -17,15 +17,12 @@ window.addEventListener("load", function () {
         } else if (e.key === " ") {
           this.game.player.shootTop();
         }
-        console.log(this.game.keys);
       });
 
       window.addEventListener("keyup", (e) => {
         if (this.game.keys.indexOf(e.key) > -1) {
           this.game.keys.splice(this.game.keys.indexOf(e.key), 1);
         }
-
-        console.log(this.game.keys);
       });
     }
   }
@@ -48,7 +45,7 @@ window.addEventListener("load", function () {
 
     draw(context) {
       context.fillStyle = "yellow";
-      fillRect(this.x, this.y, this.width, this.height);
+      context.fillRect(this.x, this.y, this.width, this.height);
     }
   }
 
@@ -72,15 +69,27 @@ window.addEventListener("load", function () {
         this.speedY = this.maxSpeed;
       else this.speedY = 0;
       this.y += this.speedY;
+      // Handle projects
+      this.projectiles.forEach((projectile) => {
+        projectile.update();
+      });
+
+      this.projectiles = this.projectiles.filter(
+        (projectile) => !projectile.markedForDeletion
+      );
     }
 
     draw(context) {
       context.fillStyle = "black";
       context.fillRect(this.x, this.y, this.width, this.height);
+      this.projectiles.forEach((projectile) => {
+        projectile.draw(context);
+      });
     }
 
     shootTop() {
       this.projectiles.push(new Projectile(this.game, this.x, this.y));
+      console.log(this.projectiles);
     }
   }
 
