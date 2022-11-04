@@ -139,15 +139,48 @@ window.addEventListener("load", function () {
       this.game = game;
       this.fontSize = 25;
       this.fontFamily = "Helvetica";
-      this.color = "yellow";
+      this.color = "white";
     }
 
     draw(context) {
-      // Ammo
+      context.save();
       context.fillStyle = this.color;
+      context.shadowOffsetX = 2;
+      context.shadowOffsetY = 2;
+      context.shadowColor = "black";
+      context.font = this.fontSize + "px " + this.fontFamily;
+      // Score
+      context.fillText("Score: " + this.game.score, 20, 40);
+      // Ammo
       for (let i = 0; i < this.game.ammo; i++) {
         context.fillRect(20 + 5 * i, 50, 3, 20);
       }
+      // Game over message
+      if (this.game.gameOver) {
+        context.textAlign = "center";
+        let message1;
+        let message2;
+        if (this.game.score > this.game.winningScore) {
+          message1 = "You win! 🎉";
+          message2 = "Well done! 👏";
+        } else {
+          message1: "You loose!😔";
+          message2: "Try again next time!👍";
+        }
+        context.font = "50px " + this.fontFamily;
+        context.fillText(
+          message1,
+          this.game.width * 0.5,
+          this.game.height * 0.5 - 40
+        );
+        context.font = "25px " + this.fontFamily;
+        context.fillText(
+          message2,
+          this.game.width * 0.5,
+          this.game.height * 0.5 + 40
+        );
+      }
+      context.restore();
     }
   }
 
@@ -167,6 +200,10 @@ window.addEventListener("load", function () {
       this.ammoTimer = 0;
       this.ammoInterval = 500;
       this.gameOver = false;
+      this.score = 0;
+      this.winningScore = 10;
+      this.gameTime = 0;
+      this.timeLimit = 5000;
     }
 
     update(deltaTime) {
@@ -189,6 +226,7 @@ window.addEventListener("load", function () {
             if (enemy.lives <= 0) {
               enemy.markedForDeletion = true;
               this.score += enemy.score;
+              if (this.score > this.winningScore) this.gameOver = true;
             }
           }
         });
