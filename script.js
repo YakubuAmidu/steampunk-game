@@ -156,7 +156,8 @@ window.addEventListener("load", function () {
         context.fillRect(20 + 5 * i, 50, 3, 20);
       }
       // Timer
-      context.fillText("Timer: " + this.game.gameTime, 20, 100);
+      const formattedTime = (this.game.gameTime * 0.001).toFixed(1);
+      context.fillText("Timer: " + formattedTime, 20, 100);
       // Game over message
       if (this.game.gameOver) {
         context.textAlign = "center";
@@ -229,7 +230,7 @@ window.addEventListener("load", function () {
             projectile.markedForDeletion = true;
             if (enemy.lives <= 0) {
               enemy.markedForDeletion = true;
-              this.score += enemy.score;
+              if (!this.gameOver) this.score += enemy.score;
               if (this.score > this.winningScore) this.gameOver = true;
             }
           }
