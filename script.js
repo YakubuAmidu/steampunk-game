@@ -150,7 +150,9 @@ window.addEventListener("load", function () {
       // Sprite animation
       if (this.frameX < this.maxFrame) {
         this.frameX++;
-      } else this.frameX = 0;
+      } else {
+        this.frameX = 0;
+      }
     }
 
     draw(context) {
