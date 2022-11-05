@@ -46,6 +46,9 @@ body #layer1,
 body #layer2,
 body #layer3,
 body #layer4,
-body #player {
+body #player,
+body #angler1,
+body #angler2,
+body #lucky {
   display: none;
 }

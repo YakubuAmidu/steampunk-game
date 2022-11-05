@@ -2,7 +2,7 @@ window.addEventListener("load", function () {
   // Canvas setup
   const canvas = document.getElementById("canvas1");
   const ctx = canvas.getContext("2d");
-  canvas.width = 1500;
+  canvas.width = 700;
   canvas.height = 500;
 
   class InputHandler {
@@ -134,14 +134,12 @@ window.addEventListener("load", function () {
     }
 
     update() {
-      this.x += this.speedX;
+      this.x += this.speedX - this.game.speed;
       if (this.x + this.width < 0) this.markedForDeletion = true;
       // Sprite animation
       if (this.frameX < this.maxFrame) {
         this.frameX++;
-      } else {
-        this.frameX = 0;
-      }
+      } else this.frameX = 0;
     }
 
     draw(context) {
@@ -169,7 +167,19 @@ window.addEventListener("load", function () {
       this.width = 228;
       this.height = 169;
       this.y = Math.random() * (this.game.height * 0.9 - this.height);
+      this.image = document.getElementById("angler1");
       this.frameY = Math.floor(Math.random() * 3);
+    }
+  }
+
+  class angler2 extends Enemy {
+    constructor(game) {
+      super(game);
+      this.width = 213;
+      this.height = 165;
+      this.y = Math.random() * (this.game.height * 0.9 - this.height);
+      this.image = document.getElementById("angler2");
+      this.frameY = Math.floor(Math.random() * 2);
     }
   }
 
