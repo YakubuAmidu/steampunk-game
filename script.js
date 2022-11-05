@@ -67,9 +67,12 @@ window.addEventListener("load", function () {
       this.maxSpeed = 3;
       this.projectiles = [];
       this.image = document.getElementById("player");
+      this.powerUp = false;
+      this.powerUpTimer = 0;
+      this.powerUpLimit = 10000;
     }
 
-    update() {
+    update(deltaTime) {
       if (this.game.keys.includes("ArrowUp")) this.speedY = -this.maxSpeed;
       else if (this.game.keys.includes("ArrowDown"))
         this.speedY = this.maxSpeed;
@@ -88,6 +91,16 @@ window.addEventListener("load", function () {
         this.frameX++;
       } else {
         this.frameX = 0;
+      }
+      // Power up
+      if (this.powerUp) {
+        if (this.powerUpTimer > this.powerUpLimit) {
+          this.powerUpTimer = 0;
+          this.powerUp = false;
+          this.frameY = 0;
+        } else {
+          this.powerUpTimer += deltaTime;
+        }
       }
     }
 
@@ -167,7 +180,7 @@ window.addEventListener("load", function () {
       this.y = Math.random() * (this.game.height * 0.9 - this.height);
       this.image = document.getElementById("angler1");
       this.frameY = Math.floor(Math.random() * 3);
-      this.lives = 5;
+      this.lives = 2;
       this.score = this.lives;
     }
   }
@@ -180,8 +193,22 @@ window.addEventListener("load", function () {
       this.y = Math.random() * (this.game.height * 0.9 - this.height);
       this.image = document.getElementById("angler2");
       this.frameY = Math.floor(Math.random() * 2);
-      this.lives = 5;
+      this.lives = 3;
       this.score = this.lives;
+    }
+  }
+
+  class LuckyFish extends Enemy {
+    constructor(game) {
+      super(game);
+      this.width = 99;
+      this.height = 95;
+      this.y = Math.random() * (this.game.height * 0.9 - this.height);
+      this.image = document.getElementById("lucky");
+      this.frameY = Math.floor(Math.random() * 2);
+      this.lives = 3;
+      this.score = 15;
+      this.type = "lucky";
     }
   }
 
@@ -315,7 +342,7 @@ window.addEventListener("load", function () {
       if (this.gameTime > this.timeLimit) this.gameOver = true;
       this.background.update();
       this.background.layer4.update();
-      this.player.update();
+      this.player.update(deltaTime);
       if (this.ammoTimer > this.ammoInterval) {
         if (this.ammo < this.maxAmmo) this.ammo++;
         this.ammoTimer = 0;
@@ -360,9 +387,9 @@ window.addEventListener("load", function () {
 
     addEnemy() {
       const randomize = Math.random();
-      if (randomize < 0.5) this.enemies.push(new Angler1(this));
-      else this.enemies.push(new Angler2(this));
-      this.enemies.push(new Angler1(this));
+      if (randomize < 0.3) this.enemies.push(new Angler1(this));
+      else if (randomize < 0.6) this.enemies.push(new Angler2(this));
+      else this.enemies.push(new LuckyFish(this));
       console.log(this.enemies);
     }
 
