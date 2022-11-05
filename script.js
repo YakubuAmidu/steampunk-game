@@ -100,6 +100,8 @@ window.addEventListener("load", function () {
           this.frameY = 0;
         } else {
           this.powerUpTimer += deltaTime;
+          this.frameY = 1;
+          this.game.ammo += 0.1;
         }
       }
     }
@@ -107,6 +109,9 @@ window.addEventListener("load", function () {
     draw(context) {
       if (this.game.debug)
         context.strokeRect(this.x, this.y, this.width, this.height);
+      this.projectiles.forEach((projectile) => {
+        projectile.draw(context);
+      });
       context.drawImage(
         this.image,
         this.frameX * this.width,
@@ -118,9 +123,6 @@ window.addEventListener("load", function () {
         this.width,
         this.height
       );
-      this.projectiles.forEach((projectile) => {
-        projectile.draw(context);
-      });
     }
 
     shootTop() {
@@ -130,6 +132,22 @@ window.addEventListener("load", function () {
         );
         this.game.ammo--;
       }
+
+      if (this.powerUp) this.shootBottom();
+    }
+
+    shootBottom() {
+      if (this.game.ammo > 0) {
+        this.projectiles.push(
+          new Projectile(this.game, this.x + 80, this.y + 175)
+        );
+      }
+    }
+
+    enterPowerUp() {
+      this.powerUpTimer = 0;
+      this.powerUp = true;
+      this.game.ammo = this.game.maxAmmo;
     }
   }
 
@@ -150,9 +168,7 @@ window.addEventListener("load", function () {
       // Sprite animation
       if (this.frameX < this.maxFrame) {
         this.frameX++;
-      } else {
-        this.frameX = 0;
-      }
+      } else this.frameX = 0;
     }
 
     draw(context) {
@@ -355,6 +371,8 @@ window.addEventListener("load", function () {
         enemy.update();
         if (this.checkCollision(this.player, enemy)) {
           enemy.markedForDeletion = true;
+          if ((enemy.type = "lucky")) this.player.enterPowerUp();
+          else this.score--;
         }
         this.player.projectiles.forEach((projectile) => {
           if (this.checkCollision(projectile, enemy)) {
