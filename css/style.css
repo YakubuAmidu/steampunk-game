@@ -51,6 +51,7 @@ body #player,
 body #angler1,
 body #angler2,
 body #lucky,
-body #projectile {
+body #projectile,
+body #gears {
   display: none;
 }

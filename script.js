@@ -1,3 +1,5 @@
+const { timeStamp } = require("console");
+
 window.addEventListener("load", function () {
   // Canvas setup
   const canvas = document.getElementById("canvas1");
@@ -57,6 +59,17 @@ window.addEventListener("load", function () {
       this.x = x;
       this.y = y;
       this.image = document.getElementById("gears");
+      this.frameX = Math.floor(Math.random() * 3);
+      this.frameY = Math.floor(Math.random() * 3);
+      this.spriteSize = 50;
+      this.sizeModifier = (Math.random() * 0.5 + 0.5).toFixed(1);
+      this.size = this.spriteSize * this.sizeModifier;
+      this.speedX = Math.random() * 6 - 3;
+      this.speedY = Math.random() * -15;
+      this.gravity = 0.5;
+      this.markedForDeletion = false;
+      this.angle = 0;
+      this.va = Math.random() * 0.2 - 0.1;
     }
   }
 
