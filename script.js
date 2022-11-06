@@ -68,7 +68,7 @@ window.addEventListener("load", function () {
       this.markedForDeletion = false;
       this.angle = 0;
       this.va = Math.random() * 0.2 - 0.1;
-      this.bounced = false;
+      this.bounced = 0;
       this.bottomBounceBoundary = Math.random() * 100 + 60;
     }
 
@@ -81,10 +81,10 @@ window.addEventListener("load", function () {
         this.markedForDeletion = true;
       if (
         this.y > this.game.height - this.bottomBounceBoundary &&
-        !this.bounced
+        this.bounced < 2
       ) {
-        this.bounced = true;
-        this.speedY *= -0.5;
+        this.bounced++;
+        this.speedY *= -0.7;
       }
     }
 
@@ -458,6 +458,15 @@ window.addEventListener("load", function () {
               )
             );
             if (enemy.lives <= 0) {
+              for (let i = 0; i < 10; i++) {
+                this.particles.push(
+                  new Particle(
+                    this,
+                    enemy.x + enemy.width * 0.5,
+                    enemy.y + enemy.height * 0.5
+                  )
+                );
+              }
               enemy.markedForDeletion = true;
               if (!this.gameOver) this.score += enemy.score;
               if (this.score > this.winningScore) this.gameOver = true;
