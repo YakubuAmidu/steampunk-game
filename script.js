@@ -79,8 +79,9 @@ window.addEventListener("load", function () {
       else this.speedY = 0;
       this.y += this.speedY;
       // Vertical boundries
-      if (this.y > this.game.height - this.height)
-        this.y = this.game.height - this.height;
+      if (this.y > this.game.height - this.height * 0.5)
+        this.y = this.game.height - this.height * 0.5;
+      else if (this.y < -this.height * 0.5) this.y = -this.height * 0.5;
       // Handle projects
       this.projectiles.forEach((projectile) => {
         projectile.update();
