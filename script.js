@@ -1,5 +1,3 @@
-const { timeStamp } = require("console");
-
 window.addEventListener("load", function () {
   // Canvas setup
   const canvas = document.getElementById("canvas1");
@@ -391,6 +389,7 @@ window.addEventListener("load", function () {
       this.ui = new UI(this);
       this.keys = [];
       this.enemies = [];
+      this.particles = [];
       this.enemyTimer = 0;
       this.enemyInterval = 1000;
       this.ammo = 20;
@@ -418,10 +417,23 @@ window.addEventListener("load", function () {
       } else {
         this.ammoTimer += deltaTime;
       }
+      this.particles.forEach((particle) => particle.update());
+      this.particles = this.particles.filter(
+        (particle) => !particle.markedForDeletion
+      );
       this.enemies.forEach((enemy) => {
         enemy.update();
         if (this.checkCollision(this.player, enemy)) {
           enemy.markedForDeletion = true;
+          for (let i = 0; i < 10; i++) {
+            this.particles.push(
+              new Particle(
+                this,
+                enemy.x + enemy.width * 0.5,
+                enemy.y + enemy.height * 0.5
+              )
+            );
+          }
           if ((enemy.type = "lucky")) this.player.enterPowerUp();
           else this.score--;
         }
@@ -431,6 +443,13 @@ window.addEventListener("load", function () {
             projectile.markedForDeletion = true;
             if (enemy.lives <= 0) {
               enemy.markedForDeletion = true;
+              this.particles.push(
+                new Particle(
+                  this,
+                  enemy.x + enemy.width * 0.5,
+                  enemy.y + enemy.height * 0.5
+                )
+              );
               if (!this.gameOver) this.score += enemy.score;
               if (this.score > this.winningScore) this.gameOver = true;
             }
@@ -450,6 +469,7 @@ window.addEventListener("load", function () {
       this.background.draw(context);
       this.player.draw(context);
       this.ui.draw(context);
+      this.particles.forEach((particle) => particle.draw(context));
       this.enemies.forEach((enemy) => {
         enemy.draw(context);
       });
