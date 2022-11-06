@@ -45,6 +45,7 @@ body {
       var(--color-light-blue-2, 0.8),
       var(--color-light-blue-3, 0.8)
     );
+    font-family: "Bangers", cursive;
   }
 
   #layer1,
@@ -54,7 +55,8 @@ body {
   #player,
   #angler1,
   #angler2,
-  #lucky {
+  #lucky,
+  #projectile {
     display: none;
   }
 }

@@ -38,6 +38,7 @@ window.addEventListener("load", function () {
       this.height = 3;
       this.speed = 3;
       this.markedForDeletion = false;
+      this.image = document.getElementById("projectile");
     }
 
     update() {
@@ -46,8 +47,7 @@ window.addEventListener("load", function () {
     }
 
     draw(context) {
-      context.fillStyle = "yellow";
-      context.fillRect(this.x, this.y, this.width, this.height);
+      context.drawImage(this.image, this.x, this.y);
     }
   }
 
@@ -78,6 +78,9 @@ window.addEventListener("load", function () {
         this.speedY = this.maxSpeed;
       else this.speedY = 0;
       this.y += this.speedY;
+      // Vertical boundries
+      if (this.y > this.game.height - this.height)
+        this.y = this.game.height - this.height;
       // Handle projects
       this.projectiles.forEach((projectile) => {
         projectile.update();
@@ -185,8 +188,10 @@ window.addEventListener("load", function () {
         this.width,
         this.height
       );
-      context.font = "20px Helvetica";
-      context.fillText(this.lives, this.x, this.y);
+      if (this.game.debug) {
+        context.font = "20px Helvetica";
+        context.fillText(this.lives, this.x, this.y);
+      }
     }
   }
 
@@ -281,7 +286,7 @@ window.addEventListener("load", function () {
     constructor(game) {
       this.game = game;
       this.fontSize = 25;
-      this.fontFamily = "Helvetica";
+      this.fontFamily = "Bangers";
       this.color = "white";
     }
 
@@ -294,10 +299,6 @@ window.addEventListener("load", function () {
       context.font = this.fontSize + "px " + this.fontFamily;
       // Score
       context.fillText("Score: " + this.game.score, 20, 40);
-      // Ammo
-      for (let i = 0; i < this.game.ammo; i++) {
-        context.fillRect(20 + 5 * i, 50, 3, 20);
-      }
       // Timer
       const formattedTime = (this.game.gameTime * 0.001).toFixed(1);
       context.fillText("Timer: " + formattedTime, 20, 100);
@@ -307,25 +308,31 @@ window.addEventListener("load", function () {
         let message1;
         let message2;
         if (this.game.score > this.game.winningScore) {
-          message1 = "You win! 🎉";
-          message2 = "Well done! 👏";
+          message1 = "Most wondrous! 🎉";
+          message2 = "Well done explorer! 👏";
         } else {
-          message1: "You loose!😔";
-          message2: "Try again next time!👍";
+          message1: "Blazes!😔";
+          message2: "Get my repair kit and try again!👍";
         }
-        context.font = "50px " + this.fontFamily;
+        context.font = "70px " + this.fontFamily;
         context.fillText(
           message1,
           this.game.width * 0.5,
-          this.game.height * 0.5 - 40
+          this.game.height * 0.5 - 20
         );
         context.font = "25px " + this.fontFamily;
         context.fillText(
           message2,
           this.game.width * 0.5,
-          this.game.height * 0.5 + 40
+          this.game.height * 0.5 + 20
         );
       }
+      // Ammo
+      if (this.game.player.powerUp) context.fillStyle = "#ffffbd";
+      for (let i = 0; i < this.game.ammo; i++) {
+        context.fillRect(20 + 5 * i, 50, 3, 20);
+      }
+
       context.restore();
     }
   }
