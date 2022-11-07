@@ -301,7 +301,7 @@ window.addEventListener("load", function () {
       this.frameY = 0;
       this.lives = 15;
       this.score = this.lives;
-      this.type = "hives";
+      this.type = "hive";
       this.speedX = Math.random() * -1.2 - 0.2;
     }
   }
@@ -504,6 +504,17 @@ window.addEventListener("load", function () {
                 );
               }
               enemy.markedForDeletion = true;
+              if (this.type === "hive") {
+                for (let i = 0; i < 5; i++) {
+                  this.enemies.push(
+                    new Drone(
+                      this,
+                      enemy.x + Math.random() * enemy.width,
+                      enemy.y + Math.random() * enemy.height * 0.5
+                    )
+                  );
+                }
+              }
               if (!this.gameOver) this.score += enemy.score;
               if (this.score > this.winningScore) this.gameOver = true;
             }
