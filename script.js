@@ -374,7 +374,7 @@ window.addEventListener("load", function () {
       this.game = game;
       this.frameX = 0;
       this.spriteHeight = 200;
-      this.fps = 15;
+      this.fps = 30;
       this.timer = 0;
       this.interval = 1000 / this.fps;
       this.markedForDeletion = false;
@@ -382,6 +382,7 @@ window.addEventListener("load", function () {
     }
 
     update(deltaTime) {
+      this.x -= this.game.speed;
       if (this.timer > this.interval) {
         this.frameX++;
         this.timer = 0;
