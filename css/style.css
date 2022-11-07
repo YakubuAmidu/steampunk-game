@@ -54,6 +54,8 @@ body #lucky,
 body #projectile,
 body #gears,
 body #hivewhale,
-body #drone {
+body #drone,
+body #smokeExplosion,
+body #fireExplosion {
   display: none;
 }
