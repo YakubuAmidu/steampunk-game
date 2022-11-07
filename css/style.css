@@ -53,6 +53,7 @@ body #angler2,
 body #lucky,
 body #projectile,
 body #gears,
-body #hivewhale {
+body #hivewhale,
+body #drone {
   display: none;
 }

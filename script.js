@@ -306,6 +306,22 @@ window.addEventListener("load", function () {
     }
   }
 
+  class Drone extends Enemy {
+    constructor(game, x, y) {
+      super(game);
+      this.width = 113;
+      this.height = 95;
+      this.x = x;
+      this.y = y;
+      this.image = document.getElementById("drone");
+      this.frameY = 0;
+      this.lives = 15;
+      this.score = this.lives;
+      this.type = "drone";
+      this.speedX = Math.random() * -1.2 - 0.2;
+    }
+  }
+
   class Layer {
     constructor(game, image, speedModifier) {
       this.game = game;
