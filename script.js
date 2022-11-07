@@ -382,7 +382,12 @@ window.addEventListener("load", function () {
     }
 
     update(deltaTime) {
-      this.frameX++;
+      if (this.timer > this.interval) {
+        this.frameX++;
+        this.timer = 0;
+      } else {
+        this.timer += deltaTime;
+      }
       if (this.frameX > this.maxFrame) this.markedForDeletion = true;
     }
 
@@ -513,7 +518,7 @@ window.addEventListener("load", function () {
       this.particles = this.particles.filter(
         (particle) => !particle.markedForDeletion
       );
-      this.explosions.forEach((explosion) => explosion.update());
+      this.explosions.forEach((explosion) => explosion.update(deltaTime));
       this.explosions = this.explosions.filter(
         (explosion) => !explosion.markedForDeletion
       );
@@ -605,8 +610,14 @@ window.addEventListener("load", function () {
     addExplosion(enemy) {
       const randomize = Math.random();
       if (randomize < 1)
-        this.explosions.push(new SmokeExplosion(this, enemy.x, enemy.y));
-      console.log(this.explosions);
+        this.explosions.push(
+          new SmokeExplosion(
+            this,
+            enemy.x + enemy.width * 0.5,
+            enemy.y + enemy.height * 0.5
+          )
+        );
+      // console.log(this.explosions);
     }
 
     checkCollision(rect1, rect2) {
@@ -626,8 +637,8 @@ window.addEventListener("load", function () {
     const deltaTime = timeStamp - lastTime;
     lastTime = timeStamp;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    game.update(deltaTime);
     game.draw(ctx);
+    game.update(deltaTime);
     requestAnimationFrame(animate);
   }
 
