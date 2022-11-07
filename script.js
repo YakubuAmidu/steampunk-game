@@ -69,13 +69,13 @@ window.addEventListener("load", function () {
       this.angle = 0;
       this.va = Math.random() * 0.2 - 0.1;
       this.bounced = 0;
-      this.bottomBounceBoundary = Math.random() * 100 + 60;
+      this.bottomBounceBoundary = Math.random() * 80 + 60;
     }
 
     update() {
       this.angle += this.va;
       this.speedY += this.gravity;
-      this.x -= this.speedX;
+      this.x -= this.speedX + this.game.speed;
       this.y += this.speedY;
       if (this.y > this.game.height + this.size || this.x < 0 - this.size)
         this.markedForDeletion = true;
@@ -205,7 +205,8 @@ window.addEventListener("load", function () {
     enterPowerUp() {
       this.powerUpTimer = 0;
       this.powerUp = true;
-      this.game.ammo = this.game.maxAmmo;
+      if (this.game.ammo < this.game.maxAmmo)
+        this.game.ammo = this.game.maxAmmo;
     }
   }
 
@@ -415,7 +416,7 @@ window.addEventListener("load", function () {
       this.gameTime = 0;
       this.timeLimit = 15000;
       this.speed = 1;
-      this.debug = true;
+      this.debug = false;
     }
 
     update(deltaTime) {
@@ -447,7 +448,7 @@ window.addEventListener("load", function () {
               )
             );
           }
-          if ((enemy.type = "lucky")) this.player.enterPowerUp();
+          if (enemy.type === "lucky") this.player.enterPowerUp();
           else this.score--;
         }
         this.player.projectiles.forEach((projectile) => {
@@ -489,8 +490,8 @@ window.addEventListener("load", function () {
 
     draw(context) {
       this.background.draw(context);
-      this.player.draw(context);
       this.ui.draw(context);
+      this.player.draw(context);
       this.particles.forEach((particle) => particle.draw(context));
       this.enemies.forEach((enemy) => {
         enemy.draw(context);
@@ -503,7 +504,7 @@ window.addEventListener("load", function () {
       if (randomize < 0.3) this.enemies.push(new Angler1(this));
       else if (randomize < 0.6) this.enemies.push(new Angler2(this));
       else this.enemies.push(new LuckyFish(this));
-      console.log(this.enemies);
+      // console.log(this.enemies);
     }
 
     checkCollision(rect1, rect2) {
