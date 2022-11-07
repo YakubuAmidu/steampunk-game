@@ -470,7 +470,7 @@ window.addEventListener("load", function () {
         enemy.update();
         if (this.checkCollision(this.player, enemy)) {
           enemy.markedForDeletion = true;
-          for (let i = 0; i < 10; i++) {
+          for (let i = 0; i < enemy.score; i++) {
             this.particles.push(
               new Particle(
                 this,
@@ -494,7 +494,7 @@ window.addEventListener("load", function () {
               )
             );
             if (enemy.lives <= 0) {
-              for (let i = 0; i < 10; i++) {
+              for (let i = 0; i < enemy.score; i++) {
                 this.particles.push(
                   new Particle(
                     this,
